@@ -36,6 +36,15 @@
                               <option value="{{ $category->id }}">{{ $category->label }}</option>
                           @endforeach
                       </select>
+                      <div class="form-group">
+                        <label>Tecnologie</label>
+                        @foreach($technologies as $technology)
+                            <div>
+                                <input type="checkbox" name="technologies[]" value="{{ $technology->id }}">
+                                <label>{{ $technology->name }}</label>
+                            </div>
+                        @endforeach
+                      </div>
                   </div>                
                     <button type="submit" class="btn btn-primary my-3">Pubblica</button>
                 </form>

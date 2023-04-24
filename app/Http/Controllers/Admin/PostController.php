@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 
 use App\Models\Post;
 use App\Models\Category;
+use App\Models\Technology;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -31,7 +32,8 @@ class PostController extends Controller
     public function create()
     {
         $categories = Category::all(); // fetch all categories
-        return view('admin.posts.create', compact('categories'));
+        $technologies = Technology::all();
+        return view('admin.posts.create', compact('categories', 'technologies'));
     }
     
 
@@ -60,6 +62,9 @@ class PostController extends Controller
         if (!$post->save()) {
             return redirect()->back()->withErrors('Si è verificato un errore durante il salvataggio del post.');
         }
+
+         // sync the technologies associated with the post
+         $post->technologies()->sync($request->input('technologies', []));
     
         return redirect()->route('admin.posts.index')->with('status', 'Il post è stato pubblicato correttamente!');
     }
@@ -75,7 +80,9 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        return view('admin.posts.show', compact('post'));
+
+        $technologies = $post->technologies; // fetch technologies related to the post
+        return view('admin.posts.show', compact('post', 'technologies'));
     }
 
     /**

@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             PostSeeder::class,
             CategorySeeder::class,
             UserSeeder::class,
+            TechnologiesTableSeeder::class,
         ]);
     }
 }
